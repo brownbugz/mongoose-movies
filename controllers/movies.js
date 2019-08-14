@@ -2,7 +2,14 @@ var Movie = require('../models/movie');
 
 module.exports = {
     new: newMovie,
-    create
+    create,
+    index
+}
+
+function index(req, res) {
+    Movie.find({}, function(err, movies) {
+        res.render('movies/index', {movies});
+    });
 }
 
 function create(req, res) {
@@ -13,6 +20,9 @@ function create(req, res) {
   // split if it's not an empty string
   if (req.body.cast) req.body.cast = req.body.cast.split(',');
   var movie = new Movie(req.body);
+  for (let key in req.body) {
+      
+  }
   movie.save(function(err) {
     // one way to handle errors
     if (err) return res.render('movies/new');
